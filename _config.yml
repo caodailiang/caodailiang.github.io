@@ -2,7 +2,7 @@
 title: 北落师门的博客
 SEOTitle: 北落师门的博客
 header-img: img/post-bg-desk.jpg
-email: example@gmail.com
+email: caodailiang@gmail.com
 description: "Every failure is leading towards success."
 keyword: "北落师门, 北落师门的博客, Kubernetes, Docker, Golang"
 url: "http://caodailiang.github.io"          # your host, for absolute URL
@@ -10,7 +10,7 @@ baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
 # github_repo: "https://github.com/caodailiang/caodailiang.github.io.git" # you code repository
 
 # Sidebar settings
-sidebar: true                           # whether or not using Sidebar.
+sidebar: false                           # whether or not using Sidebar.
 sidebar-about-description: "Goals determine what you going to be!"
 # sidebar-avatar: /img/about-BY-gentle.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
