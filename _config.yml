@@ -3,15 +3,15 @@ title: 北凉山
 SEOTitle: 北凉山
 header-img: img/post-bg-desk.jpg
 email: caodailiang@gmail.com
-description: "Every failure is leading towards success."
+description: "个人技术笔记，关于系统架构设计、云原生、Kubernetes、Golang等"
 keyword: "caodailiang, Kubernetes, Docker, Golang"
 url: "http://caodailiang.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
 # github_repo: "https://github.com/caodailiang/caodailiang.github.io.git" # you code repository
 
 # Sidebar settings
-sidebar: false                           # whether or not using Sidebar.
-sidebar-about-description: "Goals determine what you going to be!"
+sidebar: true                           # whether or not using Sidebar.
+sidebar-about-description: "sidebar-about-description ..."
 # sidebar-avatar: /img/about-BY-gentle.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
@@ -62,8 +62,8 @@ kramdown:
 # Gitalk
 gitalk:
   enable: false    #是否开启Gitalk评论
-  clientID: f2c84e7629bb1446c1a4                            #生成的clientID
-  clientSecret: ca6d6139d1e1b8c43f8b2e19492ddcac8b322d0d    #生成的clientSecret
+  clientID: xxxxxxxxxxxxxxxxxxxx                            #生成的clientID
+  clientSecret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx    #生成的clientSecret
   repo: caodailiang.github.io    #仓库名称
   owner: caodailiang    #github用户名
   admin: caodailiang
@@ -74,7 +74,7 @@ gitalk:
 
 # Analytics settings
 # Baidu Analytics
-ba_track_id: xxx
+ba_track_id: xxxxxx
 
 # Google Analytics
 ga_track_id: 'xxx'            # Format: UA-xxxxxx-xx
@@ -98,11 +98,11 @@ service-worker: true
 
 # Friends
 friends: [
-#    {
-#        title: "Apple",
-#        href: "https://apple.com"
-#    },{
-#        title: "Apple Developer",
-#        href: "https://developer.apple.com/"
-#    }
+    {
+        title: "Kubernetes",
+        href: "https://kubernetes.io/"
+    },{
+        title: "CNCF",
+        href: "https://www.cncf.io/"
+    }
 ]
