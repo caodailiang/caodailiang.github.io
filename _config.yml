@@ -4,7 +4,7 @@ SEOTitle: 北落师门的博客
 header-img: img/post-bg-desk.jpg
 email: caodailiang@gmail.com
 description: "Every failure is leading towards success."
-keyword: "北落师门, 北落师门的博客, Kubernetes, Docker, Golang"
+keyword: "caodailiang, Kubernetes, Docker, Golang"
 url: "http://caodailiang.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
 # github_repo: "https://github.com/caodailiang/caodailiang.github.io.git" # you code repository
@@ -57,14 +57,14 @@ kramdown:
 
 # 评论系统
 # Disqus（https://disqus.com/）
-# disqus_username: qiubaiying
+# disqus_username: caodailiang
 
 # Gitalk
 gitalk:
   enable: false    #是否开启Gitalk评论
   clientID: f2c84e7629bb1446c1a4                            #生成的clientID
   clientSecret: ca6d6139d1e1b8c43f8b2e19492ddcac8b322d0d    #生成的clientSecret
-  repo: qiubaiying.github.io    #仓库名称
+  repo: caodailiang.github.io    #仓库名称
   owner: caodailiang    #github用户名
   admin: caodailiang
   distractionFreeMode: true #是否启用类似FB的阴影遮罩
@@ -74,7 +74,7 @@ gitalk:
 
 # Analytics settings
 # Baidu Analytics
-ba_track_id: b50bf2b12b5338a1845e33832976fd68
+ba_track_id: xxx
 
 # Google Analytics
 ga_track_id: 'xxx'            # Format: UA-xxxxxx-xx
@@ -97,7 +97,7 @@ service-worker: true
 
 
 # Friends
-# friends: [
+friends: [
 #    {
 #        title: "Apple",
 #        href: "https://apple.com"
@@ -105,4 +105,4 @@ service-worker: true
 #        title: "Apple Developer",
 #        href: "https://developer.apple.com/"
 #    }
-# ]
+]
