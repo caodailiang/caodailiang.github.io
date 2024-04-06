@@ -97,12 +97,12 @@ service-worker: true
 
 
 # Friends
-friends: [
-    {
-        title: "Kubernetes",
-        href: "https://kubernetes.io/"
-    },{
-        title: "CNCF",
-        href: "https://www.cncf.io/"
-    }
-]
+#friends: [
+#    {
+#        title: "Kubernetes",
+#        href: "https://kubernetes.io/"
+#    },{
+#        title: "CNCF",
+#        href: "https://www.cncf.io/"
+#    }
+#]
