@@ -1,7 +1,7 @@
 # Site settings
 title: 北凉山
 SEOTitle: 北凉山
-header-img: img/post-bg-desk.jpg
+header-img: img/home-bg-o.jpg
 email: caodailiang@gmail.com
 description: "个人技术笔记，关于系统架构设计、云原生、Kubernetes、Golang等"
 keyword: "caodailiang, Kubernetes, Docker, Golang"
