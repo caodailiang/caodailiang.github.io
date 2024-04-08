@@ -24,7 +24,7 @@ Kubernetes多集群管理主要解决三类问题：
 
 ## 多集群开源项目
 #### Clusternet
-![Clusternet-Architecture](../img/posts/clusternet-arch.png)
+![Clusternet-Architecture](https://caodailiang.github.io/img/posts/clusternet-arch.png)
 Clusternet 是由腾讯开源的一个轻量级插件，由clusternet-agent、clusternet-scheduler和clusternet-hub三个组件组成。
 
 clusternet-agent 负责：
@@ -45,7 +45,7 @@ Clusternet核心逻辑类似于一个代理多个Kubernetes集群和兼容多个
 
 #### Karmada
 Karmada 的总体架构如下所示：
-![Karmada-Architecture](../img/posts/karmada-arch.png)
+![Karmada-Architecture](https://caodailiang.github.io/img/posts/karmada-arch.png)
 
 Karmada 控制平面包括以下组件：
 - Karmada API Server
