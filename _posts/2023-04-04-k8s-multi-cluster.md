@@ -62,7 +62,8 @@ Karmada Controller Manager 在管理面运行各种 Controller，这些 Controll
 3. Binding Controller：监视 ResourceBinding 对象，并为每个带有单个资源清单的集群创建一个 Work 对象。
 4. Execution Controller：监视 Work 对象。当创建 Work 对象时，Controller 将把资源分发到成员集群。
 
-###### 多集群网络
+## 多集群通信
+#### 多集群网络
 可使用 Submariner 实现 Karmada 成员集群彼此联网，Submariner 将相连集群之间的网络扁平化，并实现 Pod 和服务之间的 IP 可达性。
 
 Submariner 架构：
@@ -80,7 +81,7 @@ Submariner 包括下面几个重要组件 :
 
 简单来说，Submariner 由一个集群元数据中介服务（broker）掌握不同集群的信息（Pod/Service CIDR），通过 Route Agent 将 Pod 流量从 Node 导向网关节点（Gateway Engine），然后由网关节点打通隧道丢到另一个集群中去，这个过程就和不同主机的容器之间使用 VxLAN 网络通信的概念是一致的。 要达成集群连接也很简单，在其中一个集群部署 Broker，然后通过 kubeconfig 或 context 分别进行注册即可。
 
-###### 多集群服务发现
+#### 多集群服务发现
 
 
 ## 参考文档
