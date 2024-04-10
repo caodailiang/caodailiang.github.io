@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      Kubernetes 多集群项目简介
+title:      Kubernetes 多集群管理
 date:       2023-04-04
 author:     caodailiang
 header-img: img/post-bg-coffee.jpeg
