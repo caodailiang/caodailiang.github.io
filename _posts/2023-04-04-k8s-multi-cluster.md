@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      Kubernetes 多集群管理
+title:      Kubernetes 多集群项目简介
 date:       2023-04-04
 author:     caodailiang
 header-img: img/post-bg-coffee.jpeg
@@ -12,10 +12,13 @@ tags:
     - karmada
 ---
 
-## Kubernetes多集群
+## 多集群背景与内容
 为何需要多集群：
 - 单个集群节点数量有限
-- 企业采购或成本方面要求需要使用多家云供应商
+- 研发流程上不同用途
+- 可用性要求多云、多地、多中心
+- 企业采购或成本方面要求需要使用多家供应商
+- 等等
 
 Kubernetes多集群管理主要解决三类问题：
 - 多Kubernetes集群管理
@@ -23,8 +26,10 @@ Kubernetes多集群管理主要解决三类问题：
 - 多集群中Service通信
 
 ## 多集群开源项目
+#### KubeFed v2
+
 #### Clusternet
-![Clusternet-Architecture](https://caodailiang.github.io/img/posts/clusternet-arch.png)
+![Clusternet-Architecture](https://caodailiang.github.io/img/posts/k8s-multi-cluster-clusternet-arch.png)
 Clusternet 是由腾讯开源的一个轻量级插件，由clusternet-agent、clusternet-scheduler和clusternet-hub三个组件组成。
 
 clusternet-agent 负责：
@@ -47,7 +52,7 @@ Clusternet核心逻辑类似于一个代理多个Kubernetes集群和兼容多个
 Karmada 是一个部署在k8s中的定制化的k8s（k8s-on-k8s），这个k8s唯一的作用就是部署 Karmada 的k8s元集群，用户工作负载部署运行在其它子集群中，Karmada只对外暴露元集群apiserver的API。
 
 Karmada 的总体架构如下所示：
-![Karmada-Architecture](https://caodailiang.github.io/img/posts/karmada-arch.png)
+![Karmada-Architecture](https://caodailiang.github.io/img/posts/k8s-multi-cluster-karmada-arch.png)
 
 Karmada 控制平面包括以下组件：
 - Karmada API Server：直接使用 Kubernetes 的 kube-apiserver 实现的，对外暴露 Karmada API 以及 Kubernetes 原生API
@@ -64,10 +69,10 @@ Karmada Controller Manager 在管理面运行各种 Controller，这些 Controll
 
 ## 多集群通信
 #### 多集群网络
-可使用 Submariner 实现 Karmada 成员集群彼此联网，Submariner 将相连集群之间的网络扁平化，并实现 Pod 和服务之间的 IP 可达性。
+Karmada 可使用 Submariner 实现成员集群彼此联网，Submariner 将相连集群之间的网络扁平化，并实现 Pod 和服务之间的 IP 可达性。
 
 Submariner 架构：
-![Submariner-Architecture](https://caodailiang.github.io/img/posts/submariner-architecture.jpg)
+![Submariner-Architecture](https://caodailiang.github.io/img/posts/k8s-multi-cluster-submariner-arch.jpg)
 
 Submariner 包括下面几个重要组件 :
 - Broker：没有实际的 Pod 和 Service，本质上就是两个用于交换集群信息的 CRD（Endpoint 和 Cluster）,我们需要选择一个集群作为 Broker 集群，其他集群连接到 Broker 集群的 API Server 来交换集群信息。
@@ -82,10 +87,14 @@ Submariner 包括下面几个重要组件 :
 简单来说，Submariner 由一个集群元数据中介服务（broker）掌握不同集群的信息（Pod/Service CIDR），通过 Route Agent 将 Pod 流量从 Node 导向网关节点（Gateway Engine），然后由网关节点打通隧道丢到另一个集群中去，这个过程就和不同主机的容器之间使用 VxLAN 网络通信的概念是一致的。 要达成集群连接也很简单，在其中一个集群部署 Broker，然后通过 kubeconfig 或 context 分别进行注册即可。
 
 #### 多集群服务发现
+Karmada 可使用 ServiceExport 和 ServiceImport，实现跨集群的服务发现。
 
+在karmada控制平面上安装完 ServiceExport 和 ServiceImport 之后，再创建 ClusterPropagationPolicy 来分发这两个 CRD 到成员集群。
+![](https://caodailiang.github.io/img/posts/k8s-multi-cluster-eriecanal.png)
 
 ## 参考文档
 - [浅谈开源集群联邦的设计和实现原理](https://cvvz.fun/post/kube-federation/)
 - [Clusternet：一款开源的跨云多集群云原生管控利器！](https://juejin.cn/post/7056585357164281886)
 - [Kubernetes多集群社区方案介绍](https://www.ctyun.cn/developer/article/430438379012165)
 - [Kubernetes 多集群网络方案系列 1 -- Submariner 介绍](https://www.cnblogs.com/ztguang/p/17959579)
+- [KubeFed: Kubernetes Federation v2 详解](https://www.kubernetes.org.cn/5702.html)
