@@ -67,7 +67,7 @@ Karmada Controller Manager 在管理面运行各种 Controller，这些 Controll
 3. Binding Controller：监视 ResourceBinding 对象，并为每个带有单个资源清单的集群创建一个 Work 对象。
 4. Execution Controller：监视 Work 对象。当创建 Work 对象时，Controller 将把资源分发到成员集群。
 
-## 多集群通信
+## Karmada 多集群服务治理
 #### 多集群网络
 Karmada 可使用 Submariner 实现成员集群彼此联网，Submariner 将相连集群之间的网络扁平化，并实现 Pod 和服务之间的 IP 可达性。
 
@@ -90,7 +90,12 @@ Submariner 包括下面几个重要组件 :
 Karmada 可使用 ServiceExport 和 ServiceImport，实现跨集群的服务发现。
 
 在karmada控制平面上安装完 ServiceExport 和 ServiceImport 之后，再创建 ClusterPropagationPolicy 来分发这两个 CRD 到成员集群。
-![](https://caodailiang.github.io/img/posts/k8s-multi-cluster-eriecanal.png)
+![ErieCanal-Architecture](https://caodailiang.github.io/img/posts/k8s-multi-cluster-eriecanal.png)
+
+#### 多集群服务治理
+可使用 ErieCanal 完成 Karmada 多集群的互联互通，实现跨集群的服务治理。
+
+ErieCanal 是一个 MCS（多集群服务 Multi-Cluster Service）实现，为 Kubernetes 集群提供 MCS、Ingress、Egress、GatewayAPI。
 
 ## 参考文档
 - [浅谈开源集群联邦的设计和实现原理](https://cvvz.fun/post/kube-federation/)
