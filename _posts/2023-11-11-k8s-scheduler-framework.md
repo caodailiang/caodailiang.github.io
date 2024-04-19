@@ -140,7 +140,7 @@ $ /opt/kube/bin/kube-scheduler \
 
 基于以上介绍，Extender的方式在集群规模较小，调度效率要求不高的情况下，是一个灵活可用的扩展方案，但是在正常生产环境的大型集群中，Extender无法支持高吞吐量，性能较差。
 
-#### 3、Scheduling Framework方案
+#### 3、当前推荐的Scheduling Framework方案
 Scheduling Framework 是面向 Kubernetes 调度器的一种插件架构，它由一组直接编译到调度程序中的 “插件” API 组成。一个插件可能实现多个接口，以执行更为复杂或有状态的任务。这些 API 允许大多数调度功能以插件的形式实现，同时使调度 “核心” 保持简单且可维护。
 
 Scheduling Framework 在原有的调度流程中, 定义了丰富扩展点接口，开发者可以通过实现扩展点所定义的接口来实现插件，将插件注册到扩展点。Scheduling Framework 在执行调度流程时，运行到相应的扩展点时，会调用用户注册的插件，这些插件中的一些可以改变调度决策，而另一些仅用于提供信息。通过这种方式来将用户的调度逻辑集成到 Scheduling Framework 中。
