@@ -252,6 +252,7 @@ profiles:
 在kube-scheduler的启动参数中加入以上配置文件即可，和上述 scheduler-extender 示例中一样。
 
 ## 参考文档
+- [Kubernetes 调度器](https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/kube-scheduler/)
 - [Kubernetes 调度器配置](https://kubernetes.io/zh-cn/docs/reference/scheduling/)
 - [Kubernetes 调度框架](https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/scheduling-framework/)
 - [Kubernetes 调度系统之 Scheduling Framework](https://developer.aliyun.com/article/766998)
