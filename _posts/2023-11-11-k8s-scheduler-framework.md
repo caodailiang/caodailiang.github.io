@@ -98,7 +98,7 @@ func Filter(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 运行方式：
 
-1、生成extender策略配置，主要是配置上述filter的接口地址
+1）生成extender策略配置，主要是配置上述filter的接口地址
 ```
 $ cat /etc/sysconfig/kube-scheduler/extender-policy.json
 {
@@ -111,7 +111,7 @@ $ cat /etc/sysconfig/kube-scheduler/extender-policy.json
     }]
 }
 ```
-2、生成 KubeSchedulerConfiguration 配置文件，引用上述extender策略配置文件
+2）生成 KubeSchedulerConfiguration 配置文件，引用上述extender策略配置文件
 ```
 $ cat /etc/sysconfig/kube-scheduler/extender-config.yaml
 apiVersion: kubescheduler.config.k8s.io/v1
@@ -123,7 +123,7 @@ algorithmSource:
     file:
       path: "/etc/sysconfig/kube-scheduler/extender-policy.json"
 ```
-3、在kube-scheduler的启动配置中加入以上配置
+3）在kube-scheduler的启动配置中加入以上配置
 ```
 $ /opt/kube/bin/kube-scheduler \
   --config=/etc/sysconfig/kube-scheduler/extender-config.yaml \     # 上述KubeSchedulerConfiguration配置文件
@@ -155,7 +155,7 @@ Scheduling Framework 在原有的调度流程中, 定义了丰富扩展点接口
 
 以QoS插件为例，QoS插件的作用是根据Pod的QoS来决定调度顺序。
 
-1、在scheduler-plugins的pkg目录下新建一个插件目录，如“qos”，然后在其中定义插件的对象和构造函数
+1）在scheduler-plugins的pkg目录下新建一个插件目录，如“qos”，然后在其中定义插件的对象和构造函数
 ```
 // QoSSort is a plugin that implements QoS class based sorting.
 type Sort struct{}
@@ -174,7 +174,7 @@ func New(_ *runtime.Unknown, _ framework.FrameworkHandle) (framework.Plugin, err
 }
 ```
 
-2、根据插件要对应的扩展点来实现对应的接口。QoS是对待调度Pod进行排序，作用于QueueSort部分，QueueSortPlugin扩展点定义的接口如下。
+2）根据插件要对应的扩展点来实现对应的接口。QoS是对待调度Pod进行排序，作用于QueueSort部分，QueueSortPlugin扩展点定义的接口如下。
 
 ```
 // file: kubernetes/pkg/scheduler/framework/interface.go
@@ -212,7 +212,7 @@ func compQOS(p1, p2 *v1.Pod) bool {
 	return p2QOS == v1.PodQOSBestEffort
 }
 ```
-3、在程序入口的 main 函数中注册插件
+3）在程序入口的 main 函数中注册插件
 ```
 func main() {
 	// Register custom plugins to the scheduler framework.
@@ -227,7 +227,7 @@ func main() {
 	os.Exit(code)
 }
 ```
-4、编辑 KubeSchedulerConfiguration 配置使插件生效
+4）编辑 KubeSchedulerConfiguration 配置使插件生效
 
 对每个扩展点，可以禁用默认插件或者是启用自己的插件，未显式配置的扩展点则保持默认配置。
 
