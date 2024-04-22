@@ -179,7 +179,7 @@ Controller 逻辑完成后，就可以构建镜像了：
 ```
 make docker-build docker-push IMG=c9g.io/myk8soperator/sample-controller:v0.4.1
 ```
-使用构建的镜像在集群中部署 Controller。：
+使用构建的镜像在集群中部署 Controller：
 ```
 make deploy IMG=c9g.io/myk8soperator/sample-controller:v0.4.1
 ```
@@ -198,7 +198,7 @@ kubectl logs deployments/myk8soperator-controller-manager -n myk8soperator-syste
 reconcile foo foo-sample
 ```
 
-## 参数文档
+## 参考文档
 - [Kubernetes Operator 模式](https://kubernetes.io/zh-cn/docs/concepts/extend-kubernetes/operator/)
 - [kubebuilder](https://book.kubebuilder.io/)
 - [Kubernetes Controller 机制详解（二）](https://www.zhaohuabing.com/post/2023-04-04-how-to-create-a-k8s-controller-2/)
