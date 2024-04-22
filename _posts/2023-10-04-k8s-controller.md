@@ -17,6 +17,8 @@ K8s 中有多种类型的 Controller，例如 Deployment Controller、ReplicaSet
 
 ## K8s HTTP API 的 List Watch 机制
 
+Controller 工作需要监控 K8s 中资源的状态，这是如何实现的呢？
+
 K8s API Server 提供了获取某类资源集合的 HTTP API，此类 API 被称为 List 接口。例如下面的 URL 可以列出 default namespace 下面的 pod。
 ```
 HTTP GET api/v1/namespaces/default/pods
