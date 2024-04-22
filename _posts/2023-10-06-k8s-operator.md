@@ -19,7 +19,7 @@ Kubernetes Operator 是一种特定于应用的控制器，可扩展 Kubernetes 
 Kubernetes Operator 通过自定义资源定义引入新的对象类型。Kubernetes API 可以像处理内置对象一样处理自定义资源定义，包括通过 kubectl 交互以及包含在基于角色的访问权限控制（RBAC）策略中。
 
 ## kubebuilder 是什么
-Kubebuilder 是一个使用 CRDs 构建 K8s API 的 SDK，主要是： 
+Kubebuilder 是一个使用 CRDs 构建 K8s API 的 SDK，底层使用了 controller-runtime，主要功能有： 
 - 提供脚手架工具初始化 CRDs 工程，自动生成 boilerplate 代码和配置
 - 提供代码库封装底层的 K8s go-client
 
