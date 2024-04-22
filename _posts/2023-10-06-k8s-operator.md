@@ -197,3 +197,8 @@ kubectl logs deployments/myk8soperator-controller-manager -n myk8soperator-syste
 2023-10-06T06:58:10Z	INFO	Starting workers	{"controller": "foo", "controllerGroup": "samplecontroller.c9g.io", "controllerKind": "Foo", "worker count": 1}
 reconcile foo foo-sample
 ```
+
+## 参数文档
+- [Kubernetes Operator 模式](https://kubernetes.io/zh-cn/docs/concepts/extend-kubernetes/operator/)
+- [kubebuilder](https://book.kubebuilder.io/)
+- [Kubernetes Controller 机制详解（二）](https://www.zhaohuabing.com/post/2023-04-04-how-to-create-a-k8s-controller-2/)
