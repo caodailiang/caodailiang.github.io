@@ -13,7 +13,7 @@ tags:
 ## Controller 原理
 在 Kubernetes 中，用户通过声明式 API 定义资源的“预期状态”，Controller 则负责监视资源的实际状态，当资源的实际状态和“预期状态”不一致时，Controller 则对系统进行必要的更改，以确保两者一致，这个过程被称之为调谐（Reconcile）。
 
-K8s 中有多种类型的 Controller，例如 Deployment Controller、ReplicaSet Controller 和 StatefulSet Controller等。每个控制器都有不同的工作原理和适用场景，但它们的基本原理都是相同的。我们也可以根据需要编写 Controller 来实现自定义的业务逻辑。
+K8s的 Controller Manager 包含多种类型的 Controller，例如 Deployment Controller、ReplicaSet Controller 和 StatefulSet Controller等。每个控制器都有不同的工作原理和适用场景，但它们的基本原理都是相同的。我们也可以根据需要编写 Controller 来实现自定义的业务逻辑。
 
 ## K8s HTTP API 的 List Watch 机制
 
@@ -32,9 +32,17 @@ Watch 返回的 Response 中有三种类型的事件：ADDED，MODIFIED 和 DELE
 
 ## Informer 机制
 
-采用 k8s HTTP API 可以查询 K8s API 资源对象并 Watch 其变化，但大量的 HTTP 调用会对 API Server 造成较大的负荷，而且网络调用可能存在较大的延迟。除此之外，开发者还需要在程序中处理资源的缓存，HTTP 链接出问题后的重连等。为了解决这些问题并简化 Controller 的开发工作，K8s 在 client go 中提供了一个 informer 客户端库。
+为方便用户开发，K8s提供了 client-go 封装了上述逻辑，目前 client-go 已经被单独抽取出来成为一个项目了，除了在 kubernetes 中经常被用到，在 kubernetes 的二次开发过程中会经常用到 client-go，比如可以通过 client-go 开发自定义 controller。
+
+client-go 包中一个非常核心的工具就是 Informer，Informer 可以让与 kube-apiserver 的交互更加优雅。
+
+informer 主要功能可以概括为两点：
+- 资源数据缓存功能，缓解对 kube-apiserver 的访问压力
+- 资源事件分发，触发事先注册好的 ResourceEventHandler
 
 在 Kubernetes 中，Informer 是一个客户端库，用于监视 Kubernetes API 服务器中的资源并将它们的当前状态缓存到本地。Informer 提供了一种方法，让客户端应用程序可以高效地监视资源的更改，而无需不断地向 API 服务器发出请求。
+
+Informer 另外一块内容在于提供了事件 handler 机制，并会触发回调，这样 Controller 就可以基于回调处理具体业务逻辑。因为 Informer 通过 List、Watch 机制可以监控到所有资源的所有事件，因此只要给 Informer 添加 ResourceEventHandler 实例的回调函数实例取实现 OnAdd、 OnUpdate 和 OnDelete 这三个方法，就可以处理好资源的创建、更新和删除操作。
 
 采用 Informer 库编写的 Controller 的架构如下图所示：
 
