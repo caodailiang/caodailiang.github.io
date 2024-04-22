@@ -232,6 +232,10 @@ func main() {
 }
 ```
 
+在 `controller.Run` 方法中：
+1. 先调用 `informer.Run(stopCh)`，该方法会调用 Reflector 的 `ListAndWatch` 方法。`ListAndWatch` 首先采用 `HTTP List API` 从 K8s API Server 获取当前的资源列表，然后调用 `HTTP Watch API` 对资源变化进行监控，并把 `List` 和 `Watch` 的收到的资源通过 `ResourceEventHandlerFuncs` 的 `AddFunc`、 `UpdateFunc`、 `DeleteFunc` 三个回调接口分发给 `Controller`。
+2. 然后调用 `cache.WaitForCacheSync(stopCh, c.informer.HasSynced)`，从方法名可直观的了解到该方法是为了确保 `Informer` 的本地缓存已经和 K8s API Server 的资源数据进行了同步。当 Reflector 成功调用 `ListAndWatch` 方法从 K8s API Server 获取到需要监控的资源数据并保存到本地缓存后，会将 `c.informer.HasSynced` 设置为 `true`。在开始业务处理前调用该方法可以确保在本地缓存中的资源数据是和 K8s API Server 中的数据一致的。
+
 ## SharedInformer
 
 如果在一个应用中有多处相互独立的业务逻辑都需要监控同一种资源对象，用户会编写多个 `Informer` 来进行处理。这会导致应用中发起对 K8s API Server 同一资源的多次 `ListAndWatch` 调用，并且每一个 `Informer` 中都有一份单独的本地缓存，增加了内存占用。
@@ -312,9 +316,9 @@ func main() {
 
 ## Leader Election
 
-在实际部署时，为了保证 `Controller` 的高可用，通常会运行多个 `Controller` 实例。在这种情况下，多个 `Controller` 实例之间需要进行 `Leader Election`。被选中成为 `Leader` 的 `Controller` 实例才执行 `Watch` 和 `Reconcile` 逻辑，其余 `Controller` 处于等待状态。当 `Leader` 出现问题后，另一个实例会被重新选为 `Leader`，接替原 `Leader` 继续执行。
+在实际部署时，为了保证 `Controller` 的高可用，通常会运行多个 Controller 实例。在这种情况下，多个 Controller 实例之间需要进行 `Leader Election`。被选中成为 `Leader` 的 Controller 实例才执行 `Watch` 和 `Reconcile` 逻辑，其余 Controller 处于等待状态。当 `Leader` 出现问题后，另一个实例会被重新选为 `Leader`，接替原 `Leader` 继续执行。
 
-具体实现是，Kubernetes 为 `Controller` 的 `Leader Election` 创建一个 `Lease` 对象，该对象 `spec` 中的 `holderIdentity` 是当前的 `Leader`，一般会使用 `Leader` 的 pod name 作为 `Identity`。`leaseDurationSeconds` 是锁的租赁时间，`renewTime` 则是上一次的更新时间。参与选举的实例会判断当前是否存在该 `Lease` 对象，如果不存在，则会创建一个 `Lease` 对象，并将 `holderIdentity` 设为自己，成为 `Leader` 并执行调谐逻辑。其他实例则会定期检测该 `Lease` 对象，如果发现租赁过期，则会试图将 `holderIdentity` 设为自己，成为新的 `Leader`。
+具体实现是，Kubernetes 为 `Controller` 的 `Leader Election` 创建一个 `Lease` 对象，该对象 spec 中的 `holderIdentity` 是当前的 `Leader`，一般会使用 Leader 的 pod name 作为 `Identity`。`leaseDurationSeconds` 是锁的租赁时间，`renewTime` 则是上一次的更新时间。参与选举的实例会判断当前是否存在该 `Lease` 对象，如果不存在，则会创建一个 `Lease` 对象，并将 `holderIdentity` 设为自己，成为 `Leader` 并执行调谐逻辑。其他实例则会定期检测该 `Lease` 对象，如果发现租赁过期，则会试图将 `holderIdentity` 设为自己，成为新的 `Leader`。
 
 ```
 // we use the Lease lock type since edits to Leases are less common

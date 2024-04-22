@@ -12,18 +12,18 @@ tags:
 ---
 
 ## Operator 是什么
-Kubernetes Operator 是一种特定于应用的控制器，可扩展 Kubernetes API 的功能，来代表 Kubernetes 用户创建、配置和管理复杂应用的实例。
+`Kubernetes Operator` 是一种特定于应用的控制器，可扩展 `Kubernetes API` 的功能，来代表 Kubernetes 用户创建、配置和管理复杂应用的实例。
 
 它基于基本 Kubernetes 资源和控制器概念构建，但又涵盖了特定于域或应用的知识，用于实现其所管理软件的整个生命周期的自动化。
 
-Kubernetes Operator 通过自定义资源定义引入新的对象类型。Kubernetes API 可以像处理内置对象一样处理自定义资源定义，包括通过 kubectl 交互以及包含在基于角色的访问权限控制（RBAC）策略中。
+`Kubernetes Operator` 通过自定义资源定义 `CRD` 引入新的对象类型。`Kubernetes API` 可以像处理内置对象一样处理自定义资源定义，包括通过 `kubectl` 交互以及包含在基于角色的访问权限控制（`RBAC`）策略中。
 
 ## kubebuilder 是什么
-Kubebuilder 是一个使用 CRDs 构建 K8s API 的 SDK，底层使用了 controller-runtime，主要功能有： 
+`Kubebuilder` 是一个使用 CRDs 构建 K8s API 的 SDK，底层使用了 `controller-runtime`，主要功能有： 
 - 提供脚手架工具初始化 CRDs 工程，自动生成 boilerplate 代码和配置
-- 提供代码库封装底层的 K8s go-client
+- 提供代码库封装底层的 K8s client-go
 
-方便用户从零开始开发 CRDs，Controllers 和 Admission Webhooks 来扩展 Kubernetes。
+可以看出，`Kubebuilder` 主要作用是方便用户从零开始开发 `CRDs`，`Controllers` 和 `Admission Webhooks` 来扩展 Kubernetes。
 
 ## Kubebuilder 的工作流程
 
@@ -36,11 +36,11 @@ Kubebuilder 是一个使用 CRDs 构建 K8s API 的 SDK，底层使用了 contro
 
 ## 使用 kubebuilder 开发 Operator 示例
 
-安装 Kubebuilder 命令行工具后，执行 `kubebuilder init` 命令，就可以生成项目。
+安装 `Kubebuilder` 命令行工具后，执行 `kubebuilder init` 命令，就可以生成项目。
 ```
 kubebuilder init --project-name myk8soperator --domain c9g.io --repo github.com/caodailiang/myk8soperator
 ```
-其中 `domain` 是自定义 CRD group 的 domain 后缀，`repo` 是对应的 go module 名。执行命令后，可以看到 Kubebuilder 生成了项目的相关目录，Manager 代码，以及用于部署的 Kubernetes 配置文件。
+其中 `domain` 是自定义 CRD group 的 domain 后缀，`repo` 是对应的 go module 名。执行命令后，可以看到 `Kubebuilder` 生成了项目的相关目录，Manager 代码，以及用于部署的 Kubernetes 配置文件。
 ```
 $ tree ./
 ./
@@ -86,7 +86,7 @@ $ tree ./
 11 directories, 28 files
 ```
 
-在生成项目的目录和初始文件后，可以采用 `kubebuilder create api` 命令来创建自定义的 CRD 和其 Controller。
+在生成项目的目录和初始文件后，可以采用 `kubebuilder create api` 命令来创建自定义的 `CRD` 和其 `Controller`。
 
 ```
 kubebuilder create api --group samplecontroller --version v1alpha1 --kind Foo
