@@ -201,4 +201,5 @@ reconcile foo foo-sample
 ## 参考文档
 - [Kubernetes Operator 模式](https://kubernetes.io/zh-cn/docs/concepts/extend-kubernetes/operator/)
 - [kubebuilder](https://book.kubebuilder.io/)
+- [kubebuilder 快速入门](https://cloudnative.to/kubebuilder/quick-start.html)
 - [Kubernetes Controller 机制详解（二）](https://www.zhaohuabing.com/post/2023-04-04-how-to-create-a-k8s-controller-2/)
