@@ -52,6 +52,7 @@ Clusternet核心逻辑类似于一个代理多个Kubernetes集群和兼容多个
 Karmada 是一个部署在k8s中的定制化的k8s（k8s-on-k8s），这个k8s唯一的作用就是部署 Karmada 的k8s元集群，用户工作负载部署运行在其它子集群中，Karmada只对外暴露元集群apiserver的API。
 
 Karmada 的总体架构如下所示：
+
 ![Karmada-Architecture](https://caodailiang.github.io/img/posts/k8s-multi-cluster-karmada-arch.png)
 
 Karmada 控制平面包括以下组件：
@@ -72,6 +73,7 @@ Karmada Controller Manager 在管理面运行各种 Controller，这些 Controll
 Karmada 可使用 Submariner 实现成员集群彼此联网，Submariner 将相连集群之间的网络扁平化，并实现 Pod 和服务之间的 IP 可达性。
 
 Submariner 架构：
+
 ![Submariner-Architecture](https://caodailiang.github.io/img/posts/k8s-multi-cluster-submariner-arch.jpg)
 
 Submariner 包括下面几个重要组件 :
@@ -90,7 +92,8 @@ Submariner 包括下面几个重要组件 :
 Karmada 可使用 ServiceExport 和 ServiceImport，实现跨集群的服务发现。
 
 在karmada控制平面上安装完 ServiceExport 和 ServiceImport 之后，再创建 ClusterPropagationPolicy 来分发这两个 CRD 到成员集群。
-![ErieCanal-Architecture](https://caodailiang.github.io/img/posts/k8s-multi-cluster-eriecanal.png)
+
+![ErieCanal Architecture](https://caodailiang.github.io/img/posts/k8s-multi-cluster-eriecanal.png)
 
 #### 多集群服务治理
 可使用 ErieCanal 完成 Karmada 多集群的互联互通，实现跨集群的服务治理。

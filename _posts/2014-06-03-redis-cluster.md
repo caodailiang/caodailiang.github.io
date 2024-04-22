@@ -35,7 +35,7 @@ key1、key2、key3和server1、server2通过hash都能在这个圆环上找到�
 
 解决这个问题的方法是使用虚拟节点，一个真实服务器对应多个虚拟节点，所有虚拟节点按hash值分布在一致性哈希圆环上。具体实现方法可以这样做，为真实服务器设置副本数量，然后根据各真实服务器的IP和端口号再加上一个递增的索引数计算hash值。
 
-```
+```cgo
 <?php
 class RedisCache {
     public $servers = array();  //真实服务器
@@ -69,7 +69,7 @@ class RedisCache {
 
 ## 完整代码示例
 PHP SDK代码示例如下：
-```
+```cgo
 <?php
 class RedisCache {
     public $servers = array();  //真实服务器
@@ -198,7 +198,7 @@ class RedisCache {
 }
 ```
 使用示例：
-```
+```cgo
 <?php
 $redis_servers = array(
        array(

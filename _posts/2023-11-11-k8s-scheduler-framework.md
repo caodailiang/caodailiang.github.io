@@ -19,7 +19,7 @@ kube-scheduler 给一个 Pod 做调度选择时包含两个步骤：
 2. **打分**：根据当前启用的打分规则，调度器会给每一个可调度节点进行打分，从而在所有可调度节点中选取一个最合适的节点。
 
 Kubernetes支持在集群中同时部署多个调度器，使用不同的调度器来对不同的Pod进行调度。Workload或Pod通过指定 `schedulerName` 来指定由哪个调度器来调度Pod，如果 `schedulerName` 未指定则由Kubernetes默认的 `default-scheduler` 来负责调度。
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -36,7 +36,7 @@ spec:
 
 下面的例子是官方用 Bash 实现的一个最简单的调度器，随机指派一个节点调度Pod。
 
-```
+```shell
 #!/bin/bash
 SERVER='localhost:8001'
 while true;
@@ -65,7 +65,7 @@ done
 
 例如一个Filter扩展示例：
 
-```
+```go
 // scheduler-extender-filter.go
 func main() {
     router := httprouter.New()
@@ -99,7 +99,7 @@ func Filter(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 运行方式：
 
 1）生成extender策略配置，主要是配置上述filter的接口地址
-```
+```json
 $ cat /etc/sysconfig/kube-scheduler/extender-policy.json
 {
     "kind" : "Policy",
@@ -112,7 +112,7 @@ $ cat /etc/sysconfig/kube-scheduler/extender-policy.json
 }
 ```
 2）生成 KubeSchedulerConfiguration 配置文件，引用上述extender策略配置文件
-```
+```yaml
 $ cat /etc/sysconfig/kube-scheduler/extender-config.yaml
 apiVersion: kubescheduler.config.k8s.io/v1
 kind: KubeSchedulerConfiguration
@@ -124,7 +124,7 @@ algorithmSource:
       path: "/etc/sysconfig/kube-scheduler/extender-policy.json"
 ```
 3）在kube-scheduler的启动配置中加入以上配置
-```
+```shell
 $ /opt/kube/bin/kube-scheduler \
   --config=/etc/sysconfig/kube-scheduler/extender-config.yaml \     # 上述KubeSchedulerConfiguration配置文件
   --address=127.0.0.1 \
@@ -156,7 +156,7 @@ Scheduling Framework 在原有的调度流程中, 定义了丰富扩展点接口
 以QoS插件为例，QoS插件的作用是根据Pod的QoS来决定调度顺序。
 
 1）在scheduler-plugins的pkg目录下新建一个插件目录，如“qos”，然后在其中定义插件的对象和构造函数
-```
+```go
 // QoSSort is a plugin that implements QoS class based sorting.
 type Sort struct{}
 
@@ -176,7 +176,7 @@ func New(_ *runtime.Unknown, _ framework.FrameworkHandle) (framework.Plugin, err
 
 2）根据插件要对应的扩展点来实现对应的接口。QoS是对待调度Pod进行排序，作用于QueueSort部分，QueueSortPlugin扩展点定义的接口如下。
 
-```
+```go
 // file: kubernetes/pkg/scheduler/framework/interface.go
 
 // QueueSortPlugin is an interface that must be implemented by "QueueSort" plugins.
@@ -191,7 +191,7 @@ type QueueSortPlugin interface {
 
 QueueSortPlugin接口只定义了一个函数Less，所以只需要实现这个函数即可。
 
-```
+```go
 // Less is the function used by the activeQ heap algorithm to sort pods.
 // It sorts pods based on their priorities. When the priorities are equal, it uses
 // the Pod QoS classes to break the tie.
@@ -213,7 +213,7 @@ func compQOS(p1, p2 *v1.Pod) bool {
 }
 ```
 3）在程序入口的 main 函数中注册插件
-```
+```go
 func main() {
 	// Register custom plugins to the scheduler framework.
 	// Later they can consist of scheduler profile(s) and hence
@@ -235,7 +235,7 @@ func main() {
 
 比如我们保持 default-scheduler 默认调度策略不变，再增加一个名为 qos-scheduler 的调度器来使用我们刚定制的QoSSort插件，可按以下方式配置。
 
-```
+```yaml
 $ cat /etc/sysconfig/kube-scheduler/scheduler-config.yaml
 apiVersion: kubescheduler.config.k8s.io/v1
 kind: KubeSchedulerConfiguration

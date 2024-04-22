@@ -37,11 +37,11 @@ tags:
 ## 使用 kubebuilder 开发 Operator 示例
 
 安装 `Kubebuilder` 命令行工具后，执行 `kubebuilder init` 命令，就可以生成项目。
-```
-kubebuilder init --project-name myk8soperator --domain c9g.io --repo github.com/caodailiang/myk8soperator
+```shell
+$ kubebuilder init --project-name myk8soperator --domain c9g.io --repo github.com/caodailiang/myk8soperator
 ```
 其中 `domain` 是自定义 CRD group 的 domain 后缀，`repo` 是对应的 go module 名。执行命令后，可以看到 `Kubebuilder` 生成了项目的相关目录，Manager 代码，以及用于部署的 Kubernetes 配置文件。
-```
+```shell
 $ tree ./
 ./
 ├── cmd
@@ -88,13 +88,13 @@ $ tree ./
 
 在生成项目的目录和初始文件后，可以采用 `kubebuilder create api` 命令来创建自定义的 `CRD` 和其 `Controller`。
 
-```
-kubebuilder create api --group samplecontroller --version v1alpha1 --kind Foo
+```shell
+$ kubebuilder create api --group samplecontroller --version v1alpha1 --kind Foo
 ```
 其中 `group` 与上一条命令中的 `domain` 一起构成自定义CRD的 APIGroup，加上 `version` 一起够成自定义CRD的GroupVersion： `samplecontroller.c9g.io/v1alpha1`。
 
 执行该命令后，新增和变更的文件列表如下：
-```
+```shell
 $ git status
 ...
 Changes not staged for commit:
@@ -116,7 +116,7 @@ internal/
 
 自定义CRD类型 Foo 的定义在 `api` 目录中，我们需要修改生成的 `api/v1alpha1/foo_types.go` 文件，在其中加入 Foo 资源的相关属性。
 
-```
+```go
 // FooSpec defines the desired state of Foo
 type FooSpec struct {
         // INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
@@ -136,13 +136,13 @@ type FooStatus struct {
 
 修改完成后再生成 CRD 的 Kubernetes yaml 定义文件。
 
-```
-make manifests
+```shell
+$ make manifests
 ```
 
 CRD 描述文件已经生成，现在可以将自定义 CRD Foo 安装到 Kubernetes 集群中。
 
-```
+```shell
 $ make install
 ...
 
@@ -153,7 +153,7 @@ foos.samplecontroller.c9g.io   2023-10-06T04:45:41Z
 
 现在来尝试创建一个 foo 资源。
 
-```
+```shell
 $ kubectl apply -f config/samples/samplecontroller_v1alpha1_foo.yaml
 $ kubectl get foos.samplecontroller.c9g.io
 NAME         AGE
@@ -162,7 +162,7 @@ foo-sample   9s
 
 自定义CRD Foo 已经创建成功，现在需要完成 Controller 逻辑。修改 `internal/controller/foo_controller.go`， 在其中加入调谐逻辑。本示例中我们只是简单地把 Foo 资源的名称打印出来：
 
-```
+```go
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.17.2/pkg/reconcile
 func (r *FooReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
@@ -176,16 +176,16 @@ func (r *FooReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
 ```
 
 Controller 逻辑完成后，就可以构建镜像了：
-```
-make docker-build docker-push IMG=c9g.io/myk8soperator/sample-controller:v0.4.1
+```shell
+$ make docker-build docker-push IMG=c9g.io/myk8soperator/sample-controller:v0.4.1
 ```
 使用构建的镜像在集群中部署 Controller：
-```
-make deploy IMG=c9g.io/myk8soperator/sample-controller:v0.4.1
+```shell
+$ make deploy IMG=c9g.io/myk8soperator/sample-controller:v0.4.1
 ```
 查看部署的 Controller 日志，可以看到对 Foo 资源的处理记录。
-```
-kubectl logs deployments/myk8soperator-controller-manager -n myk8soperator-system
+```shell
+$ kubectl logs deployments/myk8soperator-controller-manager -n myk8soperator-system
 
 2023-10-06T06:57:46Z	INFO	controller-runtime.metrics	Metrics server is starting to listen	{"addr": "127.0.0.1:8080"}
 2023-10-06T06:57:46Z	INFO	setup	starting manager

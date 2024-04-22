@@ -48,7 +48,7 @@ HTTP GET api/v1/namespaces/default/pods?watch=true
 
 ![client-go](https://caodailiang.github.io/img/posts/k8s-controller-client-go-controller-interaction.jpeg)
 
-```
+```go
 // see file: k8s.io/client-go/examples/workqueue/main.go:
 
 package main
@@ -246,7 +246,7 @@ K8s 在 `client-go` 中基于 `Informer` 之上再做了一层封装，提供了
 
 使用 `SharedInformer` 重写上面的代码：
 
-```
+```go
 ...
 func main() {
 	var kubeconfig string
@@ -320,7 +320,7 @@ func main() {
 
 具体实现是，Kubernetes 为 `Controller` 的 `Leader Election` 创建一个 `Lease` 对象，该对象 spec 中的 `holderIdentity` 是当前的 `Leader`，一般会使用 Leader 的 pod name 作为 `Identity`。`leaseDurationSeconds` 是锁的租赁时间，`renewTime` 则是上一次的更新时间。参与选举的实例会判断当前是否存在该 `Lease` 对象，如果不存在，则会创建一个 `Lease` 对象，并将 `holderIdentity` 设为自己，成为 `Leader` 并执行调谐逻辑。其他实例则会定期检测该 `Lease` 对象，如果发现租赁过期，则会试图将 `holderIdentity` 设为自己，成为新的 `Leader`。
 
-```
+```go
 // we use the Lease lock type since edits to Leases are less common
 // and fewer objects in the cluster watch "all Leases".
 lock := &resourcelock.LeaseLock{
