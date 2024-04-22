@@ -198,6 +198,8 @@ kubectl logs deployments/myk8soperator-controller-manager -n myk8soperator-syste
 reconcile foo foo-sample
 ```
 
+调试完成后，可以使用 `make uninstall` 卸载 CRD，使用 `make undeploy` 卸载控制器，进行环境清理。 
+
 ## 参考文档
 - [Kubernetes Operator 模式](https://kubernetes.io/zh-cn/docs/concepts/extend-kubernetes/operator/)
 - [kubebuilder](https://book.kubebuilder.io/)
