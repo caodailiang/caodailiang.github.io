@@ -99,7 +99,7 @@ func Filter(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 运行方式：
 
 1）生成extender策略配置，主要是配置上述filter的接口地址
-```json
+```shell
 $ cat /etc/sysconfig/kube-scheduler/extender-policy.json
 {
     "kind" : "Policy",
