@@ -68,6 +68,8 @@ Karmada Controller Manager 在管理面运行各种 Controller，这些 Controll
 3. Binding Controller：监视 ResourceBinding 对象，并为每个带有单个资源清单的集群创建一个 Work 对象。
 4. Execution Controller：监视 Work 对象。当创建 Work 对象时，Controller 将把资源分发到成员集群。
 
+![karmada-resource-relation](https://caodailiang.github.io/img/posts/k8s-multi-cluster-karmada-resource-relation.png)
+
 ## Karmada 多集群服务治理
 #### 多集群网络
 Karmada 可使用 Submariner 实现成员集群彼此联网，Submariner 将相连集群之间的网络扁平化，并实现 Pod 和服务之间的 IP 可达性。
