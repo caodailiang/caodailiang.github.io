@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      Kubernetes 多集群管理
-date:       2023-04-04
+date:       2024-01-01
 author:     caodailiang
 header-img: img/post-bg-coffee.jpeg
 catalog: 	true

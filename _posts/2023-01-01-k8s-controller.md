@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      Kubernetes Controller 工作机制
-date:       2023-10-04
+date:       2023-01-01
 author:     caodailiang
 header-img: img/post-bg-coffee.jpeg
 catalog: 	 true

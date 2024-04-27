@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      使用 kubebuilder 开发 Kubernetes Operator
-date:       2023-10-06
+date:       2023-01-24
 author:     caodailiang
 header-img: img/post-bg-coffee.jpeg
 catalog: 	 true

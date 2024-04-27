@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      Kubernetes Scheduler 扩展开发
-date:       2023-11-11
+date:       2023-04-04
 author:     caodailiang
 header-img: img/post-bg-coffee.jpeg
 catalog: 	 true
