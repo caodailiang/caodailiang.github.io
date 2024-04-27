@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      Service Mesh 与 istio 技术简介
+title:      Service Mesh 技术与 istio 架构简介
 date:       2023-10-08
 author:     caodailiang
 header-img: img/post-bg-coffee.jpeg
