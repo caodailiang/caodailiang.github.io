@@ -85,8 +85,43 @@ Istio 服务网格从逻辑上分为 **数据平面** 和 **控制平面**。
 
 ![istio-mesh](https://caodailiang.github.io/img/posts/service-mesh-istio-arch.svg)
 
+**数据平面组件：**
+
+Istio 使用 `Envoy` 代理的扩展版本，该代理是以 C++ 开发的高性能代理，用于调解服务网格中所有服务的所有入站和出站流量。
+
+`Envoy` 代理被部署为服务的 sidecar，在逻辑上为服务增加了 Envoy 的许多内置特性，例如:
+
+- 动态服务发现
+- 负载均衡
+- TLS 终端
+- HTTP/2 与 gRPC 代理
+- 熔断器
+- 健康检查
+- 基于百分比流量分割的分阶段发布
+- 故障注入
+- 丰富的指标
+
+这种 Sidecar 部署允许 Istio 可以执行策略决策，并提取丰富的遥测数据， 接着将这些数据发送到监视系统以提供有关整个网格行为的信息。
+
+Sidecar 代理模型还允许您向现有的部署添加 Istio 功能，而不需要重新设计架构或重写代码。
+
+由 `Envoy` 代理启用的一些 Istio 的功能和任务包括：
+
+- 流量控制功能：通过丰富的 HTTP、gRPC、WebSocket 和 TCP 流量路由规则来执行细粒度的流量控制。
+- 网络弹性特性：重试设置、故障转移、熔断器和故障注入。
+- 安全性和身份认证特性：执行安全性策略，并强制实行通过配置 API 定义的访问控制和速率限制。
+- 基于 WebAssembly 的可插拔扩展模型，允许通过自定义策略执行和生成网格流量的遥测。
+
+**控制平面组件**
+
+控制平面组件 `Istiod` 提供服务发现、配置和证书管理，包含3个部分：
+
+- `Pilot`：从上（如 Kubernetes）获取服务信息，完成服务发现，往下（Proxy）下发流量管理以及路由规则等 xDS 配置，驱动数据面按照规则实现流量管控（A/B测试、灰度发布）、弹性（超时、重试、熔断）、调试（故障注入、流量镜像）等功能。
+- `Citadel`：充当证书颁发机构（CA），负责身份认证和证书管理，可提供服务间和终端用户的身份认证，实现数据平面内安全的 mTLS 通信。
+- `Galley`：负责将其他 Istio 组件和底层平台（Kubernetes）进行解耦，负责配置获取、处理和分发组件。
+
 ## 参考文档
 - [服务网格概论](https://www.thebyte.com.cn/ServiceMesh/summary.html)
-- [istio](https://istio.io/zh)
+- [istio 架构](https://istio.io/latest/zh/docs/ops/deployment/architecture/)
 - [gRPC Proxyless Service Mesh](https://istio.io/latest/blog/2021/proxyless-grpc/)
 - [Introducing Ambient Mesh](https://istio.io/latest/blog/2022/introducing-ambient-mesh/)
